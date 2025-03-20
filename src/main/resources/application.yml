@@ -1,3 +1,7 @@
 spring:
   application:
     name: url-shortener
+
+url-shortener:
+  datacenter-id: 1
+  machine-id: 1
