@@ -1,7 +1,10 @@
 spring:
   application:
     name: url-shortener
-
+  devtools:
+    restart:
+      exclude: '**/lombok/**/*.class'
 url-shortener:
   datacenter-id: 1
   machine-id: 1
+  base-url: https://aemos.tech/
