@@ -33,9 +33,7 @@ public class ShortenerService {
         return shortUrl;
     }
 
-    public String redirectUrl(String url) {
-        return urlRepository.findByShortUrl(url)
-                .map(Url::getLongUrl)
-                .orElseThrow(() -> new IllegalArgumentException("Url: " + url + " not found"));
+    public Optional<Url> getLongUrl(String url) {
+        return urlRepository.findByShortUrl(url);
     }
 }

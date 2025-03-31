@@ -13,7 +13,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -74,21 +74,14 @@ class ShortenerServiceTest {
         String longUrl = "https://example.com";
         Url url = new Url(1L, shortUrl, longUrl);
 
+        Url urlEntity = new Url();
+        urlEntity.setLongUrl(longUrl);
         when(urlRepository.findByShortUrl(shortUrl)).thenReturn(Optional.of(url));
 
-        String result = shortenerService.redirectUrl(shortUrl);
+        Optional<Url> result = shortenerService.getLongUrl(shortUrl);
 
-        assertEquals(longUrl, result);
-    }
-
-    @Test
-    void testRedirectUrl_NotFound() {
-        String shortUrl = baseUrl + "notfound";
-
-        when(urlRepository.findByShortUrl(shortUrl)).thenReturn(Optional.empty());
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> shortenerService.redirectUrl(shortUrl));
-        assertEquals("Url: " + shortUrl + " not found", exception.getMessage());
+        assertTrue(result.isPresent());
+        assertEquals(longUrl, result.get().getLongUrl());
     }
 
 }
